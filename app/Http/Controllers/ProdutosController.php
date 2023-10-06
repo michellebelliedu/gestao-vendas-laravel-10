@@ -7,9 +7,20 @@ use Illuminate\Http\Request;
 
 class ProdutosController extends Controller
 {
-    public function index()
+    public function __construct(Produto $produto)
     {
-        $produtos = Produto::all();
+        $this->produto = $produto;
+    }
+
+    public function index(Request $request)
+    {
+        $pesquisar = $request->pesquisar;
+        $produtos = $this->produto->getProdutosPesquisarIndex(search: $pesquisar ?? '');
+
         return view('pages.produtos.paginacao', compact('produtos'));
+    }
+
+    public function delete(Request $request)
+    {
     }
 }
